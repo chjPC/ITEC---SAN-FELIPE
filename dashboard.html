@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Mi Dashboard - Mi Galería</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <div class="logo">
+            Mi Galería
+        </div>
+
+        <nav>
+
+            <a href="index.html">
+                Inicio
+            </a>
+
+            <button
+                id="logout-button"
+                class="login-button"
+            >
+                Cerrar sesión
+            </button>
+
+        </nav>
+
+    </header>
+
+
+    <main class="section">
+
+        <span class="section-label">
+            ÁREA PRIVADA
+        </span>
+
+        <h1>
+            Mi espacio
+        </h1>
+
+        <p id="user-email">
+            Comprobando sesión...
+        </p>
+
+
+        <div class="features">
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    🎬
+                </div>
+
+                <h3>
+                    Mis videos
+                </h3>
+
+                <p>
+                    Aquí aparecerán los videos
+                    que tienes autorizados para ver.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    🖼️
+                </div>
+
+                <h3>
+                    Mi galería
+                </h3>
+
+                <p>
+                    Aquí aparecerán tus imágenes
+                    y álbumes privados.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    🔐
+                </div>
+
+                <h3>
+                    Acceso privado
+                </h3>
+
+                <p>
+                    Solamente podrás acceder al
+                    contenido que tengas autorizado.
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="js/supabase.js"></script>
+
+    <script>
+
+        async function checkSession() {
+
+            const {
+                data: { session }
+            } = await supabaseClient.auth.getSession();
+
+
+            if (!session) {
+
+                window.location.href = "login.html";
+
+                return;
+            }
+
+
+            document.getElementById("user-email")
+                .textContent =
+                `Sesión iniciada como: ${session.user.email}`;
+        }
+
+
+        document
+            .getElementById("logout-button")
+            .addEventListener("click", async () => {
+
+                await supabaseClient.auth.signOut();
+
+                window.location.href = "login.html";
+
+            });
+
+
+        checkSession();
+
+    </script>
+
+</body>
+
+</html>
